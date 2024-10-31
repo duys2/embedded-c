@@ -1,10 +1,9 @@
 # C언어 기초
 
-
 ## 상수
 상수: 프로그램 실행 중에 값이 변하지 않는 데이터
 ```c
-#include 
+#include <stdio.h>
 
 #define PI 3.14159        // 매크로 상수 정의
 const int MAX_SIZE = 100; // const 키워드를 사용한 상수 선언
@@ -20,7 +19,7 @@ int main() {
 ## 변수
 변수: 프로그램 실행 중에 값이 변할 수 있는 메모리 공간
 ```c
-#include 
+#include <stdio.h>
 
 int main() {
     // 다양한 데이터 타입의 변수 선언
@@ -38,7 +37,7 @@ int main() {
 ## 데이터 입력
 사용자로부터 데이터를 입력받는 방법
 ```c
-#include 
+#include <stdio.h>
 
 int main() {
     int num;
@@ -47,10 +46,11 @@ int main() {
     // 정수 입력 받기
     printf("숫자를 입력하세요: ");
     scanf("%d", &num);
+    while(getchar() != '\n');  // 입력 버퍼 비우기
     
     // 문자열 입력 받기
     printf("이름을 입력하세요: ");
-    scanf("%s", name);    // 배열은 &를 사용하지 않음
+    scanf("%49s", name);    // 배열 크기보다 1 작은 값으로 제한
     
     printf("입력된 숫자: %d\n", num);
     printf("입력된 이름: %s\n", name);
@@ -61,7 +61,7 @@ int main() {
 ## 산술, 관계, 논리 연산자
 다양한 연산을 수행하는 연산자
 ```c
-#include 
+#include <stdio.h>
 
 int main() {
     // 산술 연산자: +, -, *, /, %
@@ -84,7 +84,7 @@ int main() {
 ## 비트 연산자와 그외 연산자
 비트 단위의 연산과 기타 연산자
 ```c
-#include 
+#include <stdio.h>
 
 int main() {
     // 비트 연산자: &, |, ^, ~, <<, >>
@@ -98,7 +98,7 @@ int main() {
     
     // 기타 연산자: sizeof, 조건 연산자
     int x = 10;
-    printf("x의 크기: %lu\n", sizeof(x));
+    printf("x의 크기: %zu\n", sizeof(x));  // %lu 대신 %zu 사용
     printf("조건 연산: %d\n", x > 5 ? 1 : 0);
     return 0;
 }
@@ -107,7 +107,7 @@ int main() {
 ## if문
 조건에 따른 분기를 처리하는 제어문
 ```c
-#include 
+#include <stdio.h>
 
 int main() {
     int score = 85;
@@ -132,7 +132,7 @@ int main() {
 ## switch - case 문
 다중 분기를 처리하는 제어문
 ```c
-#include 
+#include <stdio.h>
 
 int main() {
     char grade = 'B';
@@ -157,7 +157,7 @@ int main() {
 ## while문
 조건이 참인 동안 반복 실행하는 반복문
 ```c
-#include 
+#include <stdio.h>
 
 int main() {
     int i = 1;
@@ -177,7 +177,7 @@ int main() {
 ## for 문
 초기식, 조건식, 증감식을 포함하는 반복문
 ```c
-#include 
+#include <stdio.h>
 
 int main() {
     int i, factorial = 1;
@@ -195,7 +195,7 @@ int main() {
 ## do while문
 조건 검사 전에 최소 한 번은 실행되는 반복문
 ```c
-#include 
+#include <stdio.h>
 
 int main() {
     int num;
@@ -203,6 +203,7 @@ int main() {
     do {
         printf("양수를 입력하세요: ");
         scanf("%d", &num);
+        while(getchar() != '\n');  // 입력 버퍼 비우기
     } while (num <= 0);   // 양수가 입력될 때까지 반복
     
     printf("입력된 양수: %d\n", num);
@@ -213,7 +214,7 @@ int main() {
 ## 함수 작성과 사용
 코드를 모듈화하고 재사용하기 위한 함수
 ```c
-#include 
+#include <stdio.h>
 
 // 함수 선언
 int add(int a, int b);
@@ -241,7 +242,7 @@ void printMessage(void) {
 ## 배열의 선언과 사용
 동일한 타입의 데이터를 연속적으로 저장하는 자료구조
 ```c
-#include 
+#include <stdio.h>
 
 int main() {
     // 배열 선언과 초기화
@@ -264,19 +265,20 @@ int main() {
 ## 문자를 저장하는 배열
 문자열을 저장하고 처리하는 문자 배열
 ```c
-#include 
-#include 
+#include <stdio.h>
+#include <string.h>
 
 int main() {
     // 문자 배열 선언과 초기화
     char str1[10] = "Hello";
     char str2[10];
     
-    // 문자열 복사
-    strcpy(str2, str1);
+    // 문자열 복사 (보안 강화)
+    strncpy(str2, str1, sizeof(str2) - 1);
+    str2[sizeof(str2) - 1] = '\0';  // null 종료 문자 보장
     
     // 문자열 길이
-    printf("문자열 길이: %lu\n", strlen(str1));
+    printf("문자열 길이: %zu\n", strlen(str1));  // %lu 대신 %zu 사용
     
     // 문자열 비교
     if (strcmp(str1, str2) == 0) {
@@ -289,7 +291,7 @@ int main() {
 ## 포인터
 메모리 주소를 저장하고 참조하는 변수
 ```c
-#include 
+#include <stdio.h>
 
 int main() {
     int num = 10;
